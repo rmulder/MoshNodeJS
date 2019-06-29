@@ -63,7 +63,11 @@ async function getCourses(){
   // lte (less than or equal to)
   // in
   // nin (not in)
-
+  //
+  // LOGICAL OPERATORS!
+  //
+  // or .or([ {filter object} ])  <-- the find() method ahead of it will be empty
+  // and .and([ {filter object} ])  <-- works the same way as or
 
 
 
@@ -71,7 +75,10 @@ async function getCourses(){
   
   //.find({ price: { $gte: 10, $lte: 20 } }) // only where price is at least 10 but not higher than 20
   //.find({ price: {$in: [10, 15, 20]} }) // 10 or 15 or 20
-  .find({author: 'Mosh', isPublished: true}) // filter the resulting documents
+  //.find({author: 'Mosh', isPublished: true}) // filter the resulting documents
+  .find()
+  .or([  {author: 'Mosh'}, {isPublished: true}  ])  // filter objects! the .find() method ahead of .or() is empty! Result: documents where author is Mosh OR it is published
+  .and([])
   .limit(10)
   .sort({name: 1})
   .select({name: 1, tags: 1}); // only select the property you want from the document
