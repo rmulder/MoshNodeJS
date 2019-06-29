@@ -78,12 +78,14 @@ async function getCourses(){
   //.find({author: 'Mosh', isPublished: true}) // filter the resulting documents
   .find()
   .or([  {author: 'Mosh'}, {isPublished: true}  ])  // filter objects! the .find() method ahead of .or() is empty! Result: documents where author is Mosh OR it is published
-  .and([])
   .limit(10)
   .sort({name: 1})
   .select({name: 1, tags: 1}); // only select the property you want from the document
+  //.countDocuments(); // returns the number of docs. that match the above criteria
   console.log(courses);
 }
+
+// you either use .countDocuments() OR .select()
 
 getCourses();
 
