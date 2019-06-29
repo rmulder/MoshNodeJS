@@ -50,7 +50,7 @@ async function createCourse() {
 
 
 
-// querying documents
+// querying documents with collection methods chain
 async function getCourses(){
   //
   // COMPARISON OPERATORS!
@@ -69,7 +69,9 @@ async function getCourses(){
   // or .or([ {filter object} ])  <-- the find() method ahead of it will be empty
   // and .and([ {filter object} ])  <-- works the same way as or
 
-
+  const pageNumber = 2;
+  const pageSize = 10;
+  // /api/courses?pageNumber=2&pageSize=10
 
   const courses = await Course
   
@@ -78,7 +80,8 @@ async function getCourses(){
   //.find({author: 'Mosh', isPublished: true}) // filter the resulting documents
   .find()
   .or([  {author: 'Mosh'}, {isPublished: true}  ])  // filter objects! the .find() method ahead of .or() is empty! Result: documents where author is Mosh OR it is published
-  .limit(10)
+  .skip((pageNumber - 1) * pageSize) // pagination method, together with following .limit() method
+  .limit(pageSize) // .limit(10) <-- show 10 documents max.
   .sort({name: 1})
   .select({name: 1, tags: 1}); // only select the property you want from the document
   //.countDocuments(); // returns the number of docs. that match the above criteria
