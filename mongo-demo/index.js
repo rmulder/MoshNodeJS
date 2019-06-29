@@ -53,7 +53,7 @@ async function createCourse() {
 // querying documents
 async function getCourses(){
   //
-  // COMPARISON OPERATORS
+  // COMPARISON OPERATORS!
   //
   // eq (equal)
   // ne (not equal)
