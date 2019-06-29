@@ -19,7 +19,7 @@ mongoose.connect(`mongodb://${mongoDbServer}/${mongoDatabase}`, { useNewUrlParse
 const courseSchema = new mongoose.Schema({
   name: String,
   author: String,
-  tags: [ String ],
+  tags: [String],
   date: { type: Date, default: Date.now },
   isPublished: Boolean
 });
@@ -31,11 +31,54 @@ const courseSchema = new mongoose.Schema({
 
 
 const Course = mongoose.model('Course', courseSchema);
-const course = new Course({
-  name: 'Node.js Course',
-  author: 'Mosh',
-  tags: ['node', 'backend'],
-  isPublished: true
-});
 
-course.save(); // course here is a document(object), the save method returns a promise
+
+async function createCourse() {
+  const course = new Course({
+    name: 'Angular Course',
+    author: 'Mosh',
+    tags: ['angular', 'frontend'],
+    isPublished: true
+  });
+
+  const result = await course.save(); // course here is a document(object), the save method returns a promise
+  console.log(result);
+}
+
+//createCourse();
+
+
+
+
+// querying documents
+async function getCourses(){
+  //
+  // COMPARISON OPERATORS
+  //
+  // eq (equal)
+  // ne (not equal)
+  // gt (greater than)
+  // gte (greater than or equal to)
+  // lt (less than)
+  // lte (less than or equal to)
+  // in
+  // nin (not in)
+
+
+
+
+  const courses = await Course
+  
+  //.find({ price: { $gte: 10, $lte: 20 } }) // only where price is at least 10 but not higher than 20
+  //.find({ price: {$in: [10, 15, 20]} }) // 10 or 15 or 20
+  .find({author: 'Mosh', isPublished: true}) // filter the resulting documents
+  .limit(10)
+  .sort({name: 1})
+  .select({name: 1, tags: 1}); // only select the property you want from the document
+  console.log(courses);
+}
+
+getCourses();
+
+
+
